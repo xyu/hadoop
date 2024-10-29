@@ -15,13 +15,28 @@
 # limitations under the License.
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-set -e
+
+set -eu
+
 mkdir -p build
-if [ ! -d "$DIR/build/apache-rat-0.15" ]; then
-	curl -LSs https://dlcdn.apache.org/creadur/apache-rat-0.15/apache-rat-0.15-bin.tar.gz -o "$DIR/build/apache-rat.tar.gz"
-	cd $DIR/build
-	tar zvxf apache-rat.tar.gz
-	cd -
+
+rat_version=0.16.1
+
+if [ ! -d "$DIR/build/apache-rat-${rat_version}" ]; then
+  url="https://dlcdn.apache.org/creadur/apache-rat-${rat_version}/apache-rat-${rat_version}-bin.tar.gz"
+  output="$DIR/build/apache-rat.tar.gz"
+  if type wget 2> /dev/null; then
+    wget -O "$output" "$url"
+  elif type curl 2> /dev/null; then
+    curl -LSs -o "$output" "$url"
+  else
+    exit 1
+  fi
+  cd $DIR/build
+  tar zvxf apache-rat.tar.gz
+  cd -
 fi
-java -jar $DIR/build/apache-rat-0.15/apache-rat-0.15.jar $DIR -e public -e apache-rat-0.15 -e .git -e .gitignore
-docker build -t apache/hadoop:3.4 -t apache/hadoop:3.4.0 .
+
+java -jar $DIR/build/apache-rat-${rat_version}/apache-rat-${rat_version}.jar $DIR -e .dockerignore -e build -e .git -e .gitignore
+
+docker build --build-arg HADOOP_URL -t apache/hadoop:dev .

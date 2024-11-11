@@ -19,7 +19,7 @@
 package org.apache.hadoop.fs.tosfs.util;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.hadoop.thirdparty.com.google.common.collect.Lists;
+import org.apache.hadoop.util.Lists;
 
 import java.io.Closeable;
 import java.io.File;

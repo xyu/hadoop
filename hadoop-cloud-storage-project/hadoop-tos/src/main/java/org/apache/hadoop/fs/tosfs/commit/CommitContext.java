@@ -17,7 +17,7 @@
 package org.apache.hadoop.fs.tosfs.commit;
 
 import org.apache.hadoop.fs.FileStatus;
-import org.apache.hadoop.thirdparty.com.google.common.collect.Lists;
+import org.apache.hadoop.util.Lists;
 
 import java.util.List;
 

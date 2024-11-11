@@ -30,15 +30,15 @@ import org.apache.hadoop.fs.tosfs.object.ObjectUtils;
 import org.apache.hadoop.fs.tosfs.object.request.ListObjectsRequest;
 import org.apache.hadoop.fs.tosfs.object.response.ListObjectsResponse;
 import org.apache.hadoop.fs.tosfs.util.CommonUtils;
-import org.apache.hadoop.thirdparty.com.google.common.base.Function;
-import org.apache.hadoop.thirdparty.com.google.common.collect.Iterables;
-import org.apache.hadoop.thirdparty.com.google.common.collect.Lists;
+import org.apache.hadoop.fs.tosfs.util.Iterables;
+import org.apache.hadoop.util.Lists;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import static org.apache.hadoop.fs.tosfs.object.ObjectUtils.SLASH;

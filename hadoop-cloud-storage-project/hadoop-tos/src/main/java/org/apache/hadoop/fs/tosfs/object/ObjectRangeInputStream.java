@@ -23,9 +23,9 @@ import org.apache.hadoop.fs.FSInputStream;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.tosfs.util.FSUtils;
 import org.apache.hadoop.fs.tosfs.util.Range;
-import org.apache.hadoop.thirdparty.com.google.common.base.Preconditions;
 import org.apache.hadoop.thirdparty.com.google.common.io.ByteStreams;
 import org.apache.hadoop.thirdparty.com.google.common.primitives.Ints;
+import org.apache.hadoop.util.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

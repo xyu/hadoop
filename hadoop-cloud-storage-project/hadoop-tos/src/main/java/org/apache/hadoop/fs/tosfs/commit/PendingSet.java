@@ -21,8 +21,8 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.tosfs.util.JsonCodec;
 import org.apache.hadoop.fs.tosfs.util.Serializer;
 import org.apache.hadoop.thirdparty.com.google.common.collect.Iterables;
-import org.apache.hadoop.thirdparty.com.google.common.collect.Lists;
 import org.apache.hadoop.thirdparty.com.google.common.collect.Maps;
+import org.apache.hadoop.util.Lists;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;

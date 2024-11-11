@@ -19,7 +19,7 @@
 package org.apache.hadoop.fs.tosfs;
 
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.thirdparty.com.google.common.base.Preconditions;
+import org.apache.hadoop.util.Preconditions;
 
 import java.util.Objects;
 

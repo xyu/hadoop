@@ -21,7 +21,7 @@ import org.apache.hadoop.fs.tosfs.util.Serializer;
 import org.apache.hadoop.thirdparty.com.google.common.base.MoreObjects;
 import org.apache.hadoop.thirdparty.com.google.common.base.Throwables;
 import org.apache.hadoop.thirdparty.com.google.common.collect.Iterables;
-import org.apache.hadoop.thirdparty.com.google.common.collect.Lists;
+import org.apache.hadoop.util.Lists;
 import org.apache.hadoop.util.StringUtils;
 
 import java.io.IOException;

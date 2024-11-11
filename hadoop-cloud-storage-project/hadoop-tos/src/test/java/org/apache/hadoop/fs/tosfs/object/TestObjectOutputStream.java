@@ -28,7 +28,7 @@ import org.apache.hadoop.fs.tosfs.util.FSUtils;
 import org.apache.hadoop.fs.tosfs.util.TempFiles;
 import org.apache.hadoop.fs.tosfs.util.TestUtility;
 import org.apache.hadoop.thirdparty.com.google.common.base.Joiner;
-import org.apache.hadoop.thirdparty.com.google.common.collect.Lists;
+import org.apache.hadoop.util.Lists;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;

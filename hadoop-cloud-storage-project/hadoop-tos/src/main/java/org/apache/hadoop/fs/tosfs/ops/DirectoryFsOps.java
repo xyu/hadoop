@@ -24,10 +24,10 @@ import org.apache.hadoop.fs.tosfs.RawFileStatus;
 import org.apache.hadoop.fs.tosfs.object.DirectoryStorage;
 import org.apache.hadoop.fs.tosfs.object.ObjectInfo;
 import org.apache.hadoop.fs.tosfs.object.ObjectUtils;
-import org.apache.hadoop.thirdparty.com.google.common.base.Function;
-import org.apache.hadoop.thirdparty.com.google.common.collect.Iterables;
+import org.apache.hadoop.fs.tosfs.util.Iterables;
 
 import java.io.IOException;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
@@ -86,7 +86,8 @@ public class DirectoryFsOps implements FsOps {
   @Override
   public Iterable<RawFileStatus> listDir(Path dir, boolean recursive, Predicate<String> postFilter) {
     String key = ObjectUtils.pathToKey(dir, true);
-    Iterable<ObjectInfo> objs = Iterables.filter(storage.listDir(key, recursive), obj -> postFilter.test(obj.key()));
+    Iterable<ObjectInfo> objs =
+        Iterables.filter(storage.listDir(key, recursive), obj -> postFilter.test(obj.key()));
     return Iterables.transform(objs, objMapper);
   }
 

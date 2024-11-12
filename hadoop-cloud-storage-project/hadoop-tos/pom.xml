@@ -71,6 +71,12 @@
       <groupId>com.volcengine</groupId>
       <artifactId>ve-tos-java-sdk</artifactId>
       <version>${ve-tos-java-sdk.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.jetbrains.kotlin</groupId>
+          <artifactId>kotlin-stdlib-common</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>

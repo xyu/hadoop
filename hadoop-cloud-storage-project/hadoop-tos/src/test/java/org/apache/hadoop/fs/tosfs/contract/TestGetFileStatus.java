@@ -25,11 +25,14 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.contract.AbstractContractGetFileStatusTest;
 import org.apache.hadoop.fs.contract.AbstractFSContract;
 import org.apache.hadoop.fs.tosfs.RawFileStatus;
+import org.apache.hadoop.fs.tosfs.TestEnv;
 import org.apache.hadoop.fs.tosfs.conf.ConfKeys;
 import org.apache.hadoop.fs.tosfs.conf.TosKeys;
 import org.apache.hadoop.fs.tosfs.object.Constants;
 import org.apache.hadoop.fs.tosfs.util.UUIDUtils;
 import org.junit.Assert;
+import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -55,6 +58,11 @@ public class TestGetFileStatus extends AbstractContractGetFileStatusTest {
 
   public TestGetFileStatus(boolean getFileStatusEnabled) {
     this.getFileStatusEnabled = getFileStatusEnabled;
+  }
+
+  @BeforeClass
+  public static void before() {
+    Assume.assumeTrue(TestEnv.checkTestEnabled());
   }
 
   @Override

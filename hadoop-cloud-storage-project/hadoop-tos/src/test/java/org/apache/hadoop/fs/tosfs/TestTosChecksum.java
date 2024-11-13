@@ -31,6 +31,7 @@ import org.apache.hadoop.fs.tosfs.util.TempFiles;
 import org.apache.hadoop.fs.tosfs.util.TestUtility;
 import org.apache.hadoop.fs.tosfs.util.UUIDUtils;
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -52,6 +53,7 @@ public class TestTosChecksum {
 
   @Parameterized.Parameters(name = "checksumType = {0}, conf = {1}, uri = {2}, objectStorage = {3}")
   public static Iterable<Object[]> createStorage() throws URISyntaxException {
+    Assume.assumeTrue(TestEnv.checkTestEnabled());
     return createTestObjectStorage(FILE_STORE_ROOT);
   }
 

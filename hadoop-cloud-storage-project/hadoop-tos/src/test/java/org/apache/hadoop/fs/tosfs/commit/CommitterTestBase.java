@@ -20,6 +20,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.fs.tosfs.TestEnv;
 import org.apache.hadoop.fs.tosfs.object.ObjectStorage;
 import org.apache.hadoop.fs.tosfs.util.CommonUtils;
 import org.apache.hadoop.fs.tosfs.util.UUIDUtils;
@@ -33,6 +34,7 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
@@ -74,6 +76,11 @@ public abstract class CommitterTestBase {
   public void teardown() {
     CommonUtils.runQuietly(() -> fs.delete(outputPath, true));
     IOUtils.closeStream(fs);
+  }
+
+  @BeforeClass
+  public static void before() {
+    Assume.assumeTrue(TestEnv.checkTestEnabled());
   }
 
   @AfterClass

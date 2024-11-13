@@ -22,7 +22,10 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.XAttrSetFlag;
 import org.apache.hadoop.fs.contract.AbstractFSContract;
 import org.apache.hadoop.fs.contract.AbstractFSContractTestBase;
+import org.apache.hadoop.fs.tosfs.TestEnv;
 import org.apache.hadoop.fs.tosfs.common.Bytes;
+import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
@@ -35,6 +38,12 @@ import java.util.Map;
 public class TestXAttr extends AbstractFSContractTestBase {
   private static final String XATTR_NAME = "xAttrName";
   private static final byte[] XATTR_VALUE = "xAttrValue".getBytes();
+
+  @BeforeClass
+  public static void before() {
+    Assume.assumeTrue(TestEnv.checkTestEnabled());
+  }
+
   @Override
   protected AbstractFSContract createContract(Configuration conf) {
     return new TosContract(conf);

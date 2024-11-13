@@ -19,6 +19,7 @@
 package org.apache.hadoop.fs.tosfs.ops;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.tosfs.TestEnv;
 import org.apache.hadoop.fs.tosfs.common.ThreadPools;
 import org.apache.hadoop.fs.tosfs.conf.ConfKeys;
 import org.apache.hadoop.fs.tosfs.object.ObjectStorageFactory;
@@ -26,6 +27,7 @@ import org.apache.hadoop.fs.tosfs.util.TestUtility;
 import org.apache.hadoop.fs.tosfs.util.UUIDUtils;
 import org.apache.hadoop.util.Lists;
 import org.junit.AfterClass;
+import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -61,11 +63,16 @@ public class TestDefaultFsOps extends TestBaseFsOps {
 
   @BeforeClass
   public static void beforeClass() {
+    Assume.assumeTrue(TestEnv.checkTestEnabled());
     threadPool = ThreadPools.newWorkerPool("TestDefaultFsHelper-pool");
   }
 
   @AfterClass
   public static void afterClass() {
+    if (!TestEnv.checkTestEnabled()) {
+      return;
+    }
+
     if (!threadPool.isShutdown()) {
       threadPool.shutdown();
     }

@@ -16,24 +16,32 @@
  * limitations under the License.
  */
 
-package org.apache.hadoop.fs.tosfs.contract;
+package org.apache.hadoop.fs.tosfs;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.contract.AbstractContractCreateTest;
-import org.apache.hadoop.fs.contract.AbstractFSContract;
-import org.apache.hadoop.fs.tosfs.TestEnv;
-import org.junit.Assume;
-import org.junit.BeforeClass;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.tosfs.object.tos.TOS;
+import org.apache.hadoop.util.Preconditions;
 
-public class TestCreate extends AbstractContractCreateTest {
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
-  @BeforeClass
-  public static void before() {
-    Assume.assumeTrue(TestEnv.checkTestEnabled());
+public class TosFS extends RawFS {
+  public TosFS(URI uri, Configuration conf) throws IOException, URISyntaxException {
+    super(verifyURI(uri, conf), conf);
   }
 
-  @Override
-  protected AbstractFSContract createContract(Configuration conf) {
-    return new TosContract(conf);
+  private static URI verifyURI(URI uri, Configuration conf) {
+    Preconditions.checkNotNull(uri);
+
+    String scheme = uri.getScheme();
+    if (scheme == null || scheme.isEmpty()) {
+      scheme = FileSystem.getDefaultUri(conf).getScheme();
+    }
+    Preconditions.checkArgument(scheme.equals(TOS.TOS_SCHEME),
+        "Unsupported scheme %s, expected scheme is %s.", scheme, TOS.TOS_SCHEME);
+
+    return uri;
   }
 }

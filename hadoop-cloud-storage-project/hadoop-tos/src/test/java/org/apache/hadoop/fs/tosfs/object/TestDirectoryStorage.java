@@ -19,6 +19,7 @@
 package org.apache.hadoop.fs.tosfs.object;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.tosfs.TestEnv;
 import org.apache.hadoop.fs.tosfs.conf.TosKeys;
 import org.apache.hadoop.fs.tosfs.util.CommonUtils;
 import org.apache.hadoop.fs.tosfs.util.TestUtility;
@@ -27,6 +28,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -40,6 +42,11 @@ public class TestDirectoryStorage {
     storage =
         ObjectStorageFactory.createWithPrefix(String.format("%s-%s/", scheme(), UUIDUtils.random()),
             scheme(), TestUtility.bucket(), conf);
+  }
+
+  @BeforeClass
+  public static void before() {
+    Assume.assumeTrue(TestEnv.checkTestEnabled());
   }
 
   @After

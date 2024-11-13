@@ -20,8 +20,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.contract.AbstractBondedFSContract;
+import org.apache.hadoop.fs.tosfs.TestEnv;
 import org.apache.hadoop.fs.tosfs.util.TestUtility;
 import org.apache.hadoop.fs.tosfs.util.UUIDUtils;
+import org.junit.Assume;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +42,11 @@ public class TosContract extends AbstractBondedFSContract {
     }
 
     testDir = "/test-" + UUIDUtils.random();
+  }
+
+  @BeforeClass
+  public static void before() {
+    Assume.assumeTrue(TestEnv.checkTestEnabled());
   }
 
   @Override

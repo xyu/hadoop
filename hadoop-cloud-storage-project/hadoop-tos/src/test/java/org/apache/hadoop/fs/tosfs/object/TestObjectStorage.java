@@ -22,6 +22,7 @@ import com.volcengine.tos.TosServerException;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.tosfs.TestEnv;
 import org.apache.hadoop.fs.tosfs.conf.TosKeys;
 import org.apache.hadoop.fs.tosfs.object.exceptions.InvalidObjectKeyException;
 import org.apache.hadoop.fs.tosfs.object.exceptions.NotAppendableException;
@@ -75,6 +76,7 @@ public class TestObjectStorage {
 
   @Parameterized.Parameters(name = "ObjectStorage = {0}")
   public static List<ObjectStorage> createStorage() {
+    Assume.assumeTrue(TestEnv.checkTestEnabled());
     return TestUtility.createTestObjectStorage(FILE_STORE_ROOT);
   }
 

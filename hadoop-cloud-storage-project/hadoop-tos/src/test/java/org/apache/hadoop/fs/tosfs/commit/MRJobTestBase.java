@@ -23,6 +23,7 @@ import org.apache.hadoop.examples.terasort.TeraSort;
 import org.apache.hadoop.examples.terasort.TeraSortConfigKeys;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.fs.tosfs.TestEnv;
 import org.apache.hadoop.fs.tosfs.object.ObjectInfo;
 import org.apache.hadoop.fs.tosfs.object.ObjectStorage;
 import org.apache.hadoop.fs.tosfs.object.ObjectStorageFactory;
@@ -37,6 +38,7 @@ import org.apache.hadoop.yarn.conf.YarnConfiguration;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -65,6 +67,8 @@ public abstract class MRJobTestBase {
 
   @BeforeClass
   public static void beforeClass() throws IOException {
+    Assume.assumeTrue(TestEnv.checkTestEnabled());
+
     conf.setBoolean(JHAdminConfig.MR_HISTORY_CLEANER_ENABLE, false);
     conf.setBoolean(YarnConfiguration.NM_DISK_HEALTH_CHECK_ENABLE, false);
     conf.setInt(YarnConfiguration.NM_MAX_PER_DISK_UTILIZATION_PERCENTAGE, 100);
@@ -91,14 +95,14 @@ public abstract class MRJobTestBase {
 
   @AfterClass
   public static void afterClass() throws IOException {
+    if (!TestEnv.checkTestEnabled()) {
+      return;
+    }
+
     fs.delete(testDataPath, true);
     if (yarnCluster != null) {
       yarnCluster.stop();
     }
-  }
-
-  @Before
-  public void before() throws IOException {
   }
 
   @After

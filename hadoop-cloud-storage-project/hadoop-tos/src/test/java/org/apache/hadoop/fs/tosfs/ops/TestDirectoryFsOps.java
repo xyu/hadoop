@@ -19,11 +19,13 @@
 package org.apache.hadoop.fs.tosfs.ops;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.tosfs.TestEnv;
 import org.apache.hadoop.fs.tosfs.object.DirectoryStorage;
 import org.apache.hadoop.fs.tosfs.object.ObjectStorageFactory;
 import org.apache.hadoop.fs.tosfs.util.TestUtility;
 import org.apache.hadoop.fs.tosfs.util.UUIDUtils;
 import org.junit.Assume;
+import org.junit.BeforeClass;
 
 import static org.apache.hadoop.fs.tosfs.object.tos.TOS.TOS_SCHEME;
 
@@ -35,6 +37,11 @@ public class TestDirectoryFsOps extends TestBaseFsOps {
     super(ObjectStorageFactory.createWithPrefix(
         String.format("tos-%s/", UUIDUtils.random()), TOS_SCHEME, TestUtility.bucket(), new Configuration()));
     this.fsOps = new DirectoryFsOps((DirectoryStorage) storage, this::toFileStatus);
+  }
+
+  @BeforeClass
+  public static void beforeClass() {
+    Assume.assumeTrue(TestEnv.checkTestEnabled());
   }
 
   @Override

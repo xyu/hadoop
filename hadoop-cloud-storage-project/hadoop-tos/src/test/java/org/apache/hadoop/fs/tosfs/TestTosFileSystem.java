@@ -21,6 +21,8 @@ package org.apache.hadoop.fs.tosfs;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.CommonConfigurationKeys;
 import org.apache.hadoop.fs.tosfs.util.TestUtility;
+import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -30,6 +32,12 @@ import java.net.URISyntaxException;
 import static org.junit.Assert.assertThrows;
 
 public class TestTosFileSystem {
+
+  @BeforeClass
+  public static void before() {
+    Assume.assumeTrue(TestEnv.checkTestEnabled());
+  }
+
   @Test
   public void testUriVerification() throws URISyntaxException, IOException {
     Configuration conf = new Configuration(false);

@@ -25,8 +25,11 @@ import org.apache.hadoop.fs.contract.AbstractContractOpenTest;
 import org.apache.hadoop.fs.contract.AbstractFSContract;
 import org.apache.hadoop.fs.tosfs.RawFileStatus;
 import org.apache.hadoop.fs.tosfs.RawFileSystem;
+import org.apache.hadoop.fs.tosfs.TestEnv;
 import org.apache.hadoop.fs.tosfs.object.exceptions.ChecksumMismatchException;
 import org.apache.hadoop.fs.tosfs.util.Range;
+import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -35,6 +38,12 @@ import static org.apache.hadoop.fs.contract.ContractTestUtils.dataset;
 import static org.apache.hadoop.fs.contract.ContractTestUtils.writeDataset;
 
 public class TestOpen extends AbstractContractOpenTest {
+
+  @BeforeClass
+  public static void before() {
+    Assume.assumeTrue(TestEnv.checkTestEnabled());
+  }
+
   @Override
   protected AbstractFSContract createContract(Configuration conf) {
     return new TosContract(conf);

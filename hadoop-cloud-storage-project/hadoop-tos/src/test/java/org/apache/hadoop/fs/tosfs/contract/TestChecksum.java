@@ -26,9 +26,12 @@ import org.apache.hadoop.fs.contract.AbstractFSContract;
 import org.apache.hadoop.fs.contract.AbstractFSContractTestBase;
 import org.apache.hadoop.fs.contract.ContractTestUtils;
 import org.apache.hadoop.fs.tosfs.RawFileSystem;
+import org.apache.hadoop.fs.tosfs.TestEnv;
 import org.apache.hadoop.fs.tosfs.conf.ConfKeys;
 import org.apache.hadoop.fs.tosfs.object.ObjectUtils;
 import org.apache.hadoop.fs.tosfs.util.TestUtility;
+import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
@@ -38,6 +41,11 @@ import static org.apache.hadoop.fs.contract.ContractTestUtils.dataset;
 import static org.apache.hadoop.fs.contract.ContractTestUtils.writeDataset;
 
 public class TestChecksum extends AbstractFSContractTestBase {
+  @BeforeClass
+  public static void before() {
+    Assume.assumeTrue(TestEnv.checkTestEnabled());
+  }
+
   @Override
   protected AbstractFSContract createContract(Configuration conf) {
     return new TosContract(conf);

@@ -19,8 +19,17 @@ package org.apache.hadoop.fs.tosfs.contract;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.contract.AbstractContractRootDirectoryTest;
 import org.apache.hadoop.fs.contract.AbstractFSContract;
+import org.apache.hadoop.fs.tosfs.TestEnv;
+import org.junit.Assume;
+import org.junit.BeforeClass;
 
 public class TestRootDir extends AbstractContractRootDirectoryTest {
+
+  @BeforeClass
+  public static void before() {
+    Assume.assumeTrue(TestEnv.checkTestEnabled());
+  }
+
   @Override
   protected AbstractFSContract createContract(Configuration conf) {
     return new TosContract(conf);

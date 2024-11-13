@@ -33,6 +33,7 @@ import com.volcengine.tos.model.object.ListObjectsV2Input;
 import com.volcengine.tos.model.object.ListObjectsV2Output;
 import com.volcengine.tos.model.object.PutObjectInput;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.tosfs.TestEnv;
 import org.apache.hadoop.fs.tosfs.common.Tasks;
 import org.apache.hadoop.fs.tosfs.common.ThreadPools;
 import org.apache.hadoop.fs.tosfs.conf.ConfKeys;
@@ -44,7 +45,9 @@ import org.apache.hadoop.fs.tosfs.util.TestUtility;
 import org.apache.hadoop.fs.tosfs.util.UUIDUtils;
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -87,6 +90,11 @@ public class TestDelegationClientBuilder {
 
   // Maximum retry times of the tos http client.
   public static final String MAX_RETRY_COUNT_KEY = "fs.tos.http.maxRetryCount";
+
+  @BeforeClass
+  public static void before() {
+    Assume.assumeTrue(TestEnv.checkTestEnabled());
+  }
 
   @Before
   public void setUp() {

@@ -16,24 +16,19 @@
  * limitations under the License.
  */
 
-package org.apache.hadoop.fs.tosfs.contract;
+package org.apache.hadoop.fs.tosfs;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.contract.AbstractContractCreateTest;
-import org.apache.hadoop.fs.contract.AbstractFSContract;
-import org.apache.hadoop.fs.tosfs.TestEnv;
-import org.junit.Assume;
-import org.junit.BeforeClass;
+import org.apache.hadoop.fs.tosfs.util.ParseUtils;
 
-public class TestCreate extends AbstractContractCreateTest {
+public class TestEnv {
+  public static final String ENV_TOS_UNIT_TEST_ENABLED = "TOS_UNIT_TEST_ENABLED";
+  private static final boolean TOS_TEST_ENABLED;
 
-  @BeforeClass
-  public static void before() {
-    Assume.assumeTrue(TestEnv.checkTestEnabled());
+  static {
+    TOS_TEST_ENABLED = ParseUtils.envAsBoolean(ENV_TOS_UNIT_TEST_ENABLED, false);
   }
 
-  @Override
-  protected AbstractFSContract createContract(Configuration conf) {
-    return new TosContract(conf);
+  public static boolean checkTestEnabled() {
+    return TOS_TEST_ENABLED;
   }
 }

@@ -21,6 +21,7 @@ package org.apache.hadoop.fs.tosfs.ops;
 import org.apache.commons.io.IOUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.fs.tosfs.TestEnv;
 import org.apache.hadoop.fs.tosfs.common.ThreadPools;
 import org.apache.hadoop.fs.tosfs.conf.ConfKeys;
 import org.apache.hadoop.fs.tosfs.object.ObjectStorage;
@@ -62,6 +63,7 @@ public class TestRenameOp extends TestBaseOps {
 
   @Parameterized.Parameters
   public static List<ObjectStorage> createStorage() {
+    Assume.assumeTrue(TestEnv.checkTestEnabled());
     return TestUtility.createTestObjectStorage(FILE_STORE_ROOT);
   }
 

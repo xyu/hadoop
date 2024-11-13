@@ -23,6 +23,9 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.contract.AbstractContractDeleteTest;
 import org.apache.hadoop.fs.contract.AbstractFSContract;
 import org.apache.hadoop.fs.contract.ContractTestUtils;
+import org.apache.hadoop.fs.tosfs.TestEnv;
+import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -31,6 +34,12 @@ import static org.apache.hadoop.fs.tosfs.object.ObjectTestUtils.assertDirExist;
 import static org.apache.hadoop.fs.tosfs.object.ObjectTestUtils.assertObjectNotExist;
 
 public class TestDelete extends AbstractContractDeleteTest {
+
+  @BeforeClass
+  public static void before() {
+    Assume.assumeTrue(TestEnv.checkTestEnabled());
+  }
+
   @Override
   protected AbstractFSContract createContract(Configuration conf) {
     return new TosContract(conf);

@@ -26,6 +26,7 @@ import com.volcengine.tos.model.RequestInfo;
 import com.volcengine.tos.model.object.PutObjectOutput;
 import com.volcengine.tos.model.object.UploadPartV2Output;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.tosfs.TestEnv;
 import org.apache.hadoop.fs.tosfs.conf.ConfKeys;
 import org.apache.hadoop.fs.tosfs.conf.TosKeys;
 import org.apache.hadoop.fs.tosfs.object.InputStreamProvider;
@@ -34,7 +35,9 @@ import org.apache.hadoop.fs.tosfs.object.Part;
 import org.apache.hadoop.fs.tosfs.object.tos.auth.SimpleCredentialsProvider;
 import org.apache.hadoop.fs.tosfs.util.TestUtility;
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -60,6 +63,11 @@ public class TestTOSRetryPolicy {
   private final String retryKey = "retryKey.txt";
   private TOSV2 tosClient;
   private DelegationClient client;
+
+  @BeforeClass
+  public static void before() {
+    Assume.assumeTrue(TestEnv.checkTestEnabled());
+  }
 
   @Before
   public void setUp() {

@@ -20,6 +20,7 @@ package org.apache.hadoop.fs.tosfs.object.tos;
 
 import com.volcengine.tos.internal.model.CRC64Checksum;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.tosfs.TestEnv;
 import org.apache.hadoop.fs.tosfs.common.Bytes;
 import org.apache.hadoop.fs.tosfs.conf.TosKeys;
 import org.apache.hadoop.fs.tosfs.object.ChecksumType;
@@ -68,6 +69,8 @@ public class TestTOSObjectStorage {
 
   @Parameterized.Parameters(name = "ObjectStorage = {0}, Checksum = {1}, ChecksumType = {2}")
   public static Iterable<Object[]> collections() {
+    Assume.assumeTrue(TestEnv.checkTestEnabled());
+
     List<Object[]> values = new ArrayList<>();
 
     Configuration conf = new Configuration();

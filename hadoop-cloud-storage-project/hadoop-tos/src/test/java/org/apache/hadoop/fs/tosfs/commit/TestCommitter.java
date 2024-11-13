@@ -18,12 +18,13 @@ package org.apache.hadoop.fs.tosfs.commit;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.tosfs.util.ParseUtils;
+import org.apache.hadoop.fs.tosfs.util.TestUtility;
 
 public class TestCommitter extends CommitterTestBase {
   @Override
   protected Configuration newConf() {
     Configuration conf = new Configuration();
-    conf.set("fs.defaultFS", String.format("tos://%s", ParseUtils.envAsString("TOS_BUCKET", false)));
+    conf.set("fs.defaultFS", String.format("tos://%s", TestUtility.bucket()));
     return conf;
   }
 }

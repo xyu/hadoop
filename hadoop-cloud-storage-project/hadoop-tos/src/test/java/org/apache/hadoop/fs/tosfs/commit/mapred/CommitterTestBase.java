@@ -20,6 +20,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.fs.tosfs.TestEnv;
 import org.apache.hadoop.fs.tosfs.commit.CommitUtils;
 import org.apache.hadoop.fs.tosfs.commit.Pending;
 import org.apache.hadoop.fs.tosfs.commit.PendingSet;
@@ -37,6 +38,7 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
@@ -75,8 +77,17 @@ public abstract class CommitterTestBase {
     IOUtils.closeStream(fs);
   }
 
+  @BeforeClass
+  public static void beforeClass() {
+    Assume.assumeTrue(TestEnv.checkTestEnabled());
+  }
+
   @AfterClass
   public static void afterClass() {
+    if (!TestEnv.checkTestEnabled()) {
+      return;
+    }
+
     List<String> committerThreads = Thread.getAllStackTraces().keySet()
         .stream()
         .map(Thread::getName)

@@ -62,7 +62,7 @@ public class TosKeys {
   // Credential
   /**
    * Default credentials provider chain that looks for credentials in this order:
-   * SimpleCredentialsProvider,EnvironmentCredentialsProvider,IAMInstanceCredentialsProvider.
+   * SimpleCredentialsProvider,EnvironmentCredentialsProvider.
    */
   public static final String FS_TOS_CREDENTIALS_PROVIDER = "fs.tos.credentials.provider";
   public static final String FS_TOS_CREDENTIALS_PROVIDER_DEFAULT =

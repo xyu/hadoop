@@ -311,6 +311,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/x
                       <bannedImport>org.apache.commons.logging.**</bannedImport>
                     </bannedImports>
                   </restrictImports>
+                  <restrictImports>
+                    <includeTestCode>true</includeTestCode>
+                    <reason>Use shaded tos sdk</reason>
+                    <bannedImports>
+                      <bannedImport>com.volcengine.tos.**</bannedImport>
+                    </bannedImports>
+                  </restrictImports>
                 </rules>
               </configuration>
             </execution>

@@ -33,10 +33,10 @@ In quick start, we will use hadoop shell command to access a tos bucket.
 
 ### Usage
 
-1. Copy hadoop-tos bundler jar to hdfs lib path. The bundle jar is placed
+* Copy hadoop-tos bundler jar to hdfs lib path. The bundle jar is placed
    at `$HADOOP_HOME/share/hadoop/tools/hadoop-cloud-storage/hadoop-tos-{VERSION}.jar`. The hdfs lib
    path is `$HADOOP_HOME/share/hadoop/hdfs`. Remember copying on all hadoop nodes.
-2. Configure properties.
+* Configure properties.
 
 ```xml
 
@@ -93,7 +93,7 @@ In quick start, we will use hadoop shell command to access a tos bucket.
 </properties>
 ```
 
-3. Use hadoop shell command to access TOS.
+* Use hadoop shell command to access TOS.
 
 ```bash
 # 1. List root dir. 
@@ -146,13 +146,14 @@ TOS has some distinctive features that are very useful in bigdata scenarios.
 This section illustrates how hadoop-tos transforms TOS to a hadoop FileSystem. TOS requires object's
 name must not start with slash, must not contain consecutive slash and must not be empty. Here is
 the transformation rules.
-• Object name is divided by slash to form hierarchy.
-• An object whose name ends with slash is a directory.
-• An object whose name doesn't end with slash is a file.
-• A file's parents are directories, no matter whether the parent exists or not.
+
+* Object name is divided by slash to form hierarchy.
+* An object whose name ends with slash is a directory.
+* An object whose name doesn't end with slash is a file.
+* A file's parents are directories, no matter whether the parent exists or not.
 
 For example, supposing we have 2 objects "user/table/" and "user/table/part-0". The first object
-is mapped to "/user/table" in Hadoop and is a directory. The second object is mapped to
+is mapped to "/user/table" in hadoop and is a directory. The second object is mapped to
 "/user/table/part-0" as a file. The non-existent object "user/" is mapped to "/user" as a directory
 because it's the parent of file "/user/table/part-0".
 
@@ -163,18 +164,17 @@ because it's the parent of file "/user/table/part-0".
 | user/             | no               | /user              | Directory       |
 
 The FileSystem requirements above are not enforced rules in flat mode, users can construct
-cases violating the requirements above. For example, creating a file with its parent is a file too.
-The behaviour is undefined in these semantic violation cases.
-
-In hierarchy mode, the requirements are enforced rules controlled by TOS service, so there won't be
+cases violating the requirements above. For example, creating a file with its parent is a file. In
+hierarchy mode, the requirements are enforced rules controlled by TOS service, so there won't be
 semantic violations.
 
 ### List, Rename and Delete
 
-List, rename and delete are costly operations in flat mode. Since the namespace is flat, a client
-needs to list with prefix and filter all objects under the specified directory. For rename and
-delete operations, the client needs to rename and delete objects one by one. So they are not atomic
-operations and costs a lot comparing to hdfs.
+List, rename and delete are costly operations in flat mode. Since the namespace is flat, to list
+a directory, the client needs to scan all objects with directory as the prefix and filter with
+delimiter. For rename and delete directory, the client needs to first list the directory to get all
+objects and then rename or delete objects one by one. So they are not atomic operations and costs a
+lot comparing to hdfs.
 
 The idiosyncrasies of hierarchy mode is supporting directory. So it can list very fast and
 support atomic rename and delete directory. Rename or delete failure in flat mode may leave
@@ -197,12 +197,12 @@ write buffer, put for small files, multipart-upload for big files etc.
 
 ### Permissions
 
-TOS supports permissions based on IAM, Bucket Policy, Bucket and Object ACL. It is very
-different from filesystem permission model. In TOS, permissions are based on object names and
-IAM users, and could not be mapped to filesystem mode and acl.
-When using TosFileSystem and TosFS, users can still get owners and permissions from directories and
-files, but they are all fake. Real access control depends on TOS permission and user's IAM
-identity.
+TOS permission model is different from hadoop filesystem permission model. TOS supports permissions
+based on IAM, Bucket Policy, Bucket and Object ACL, while hadoop filesystem permission model uses
+mode and acl. There is no way to mapped tos permission to hadoop filesystem permission, so we have
+to use fake permissions in TosFileSystem and TosFS. Users can read and change the filesystem
+permissions, they can only be seen but not effective. Permission control eventually depends on TOS
+permission model.
 
 ### Times
 
@@ -217,13 +217,30 @@ TOS supports CRC64ECMA checksum by default, it is mapped to Hadoop FileChecksum.
 retrieve it by calling `FileSystem#getFileChecksum`.
 To be compatible with HDFS, TOS provides optional CRC32C checksum. When we distcp
 between HDFS and TOS, we can rely on distcp checksum mechanisms to keep data consistent.
+To use CRC32C, configure keys below.
+```xml
+<configuration>
+   <property>
+      <name>fs.tos.checksum.enabled</name>
+      <value>true</value>
+   </property>
+   <property>
+      <name>fs.tos.checksum-algorithm</name>
+      <value>COMPOSITE-CRC32C</value>
+   </property>
+   <property>
+      <name>fs.tos.checksum-type</name>
+      <value>CRC32C</value>
+   </property>
+</configuration>
+```
 
 ### Credential
 
 TOS client uses access key id and secret access key to authenticate with tos service. There are 2
 ways to configure them. First is adding to hadoop configuration, such as adding to core-site.xml or
 configuring through `-D` parameter. The second is setting environment variable, hadoop-tos will
-search them automatically.
+search for environment variables automatically.
 
 To configure ak, sk in hadoop configuration, using the key below.
 
@@ -400,5 +417,5 @@ export TOS_UNIT_TEST_ENABLED=true
 Then cd to `$HADOOP_HOME`, and run the test command below.
 
 ```bash
-mvn -Dtest=org.apache.hadoop.fs.tosfs.** test -pl org.apache.hadoop:hadoop-tos
+mvn -Dtest=org.apache.hadoop.fs.tosfs.** test -pl org.apache.hadoop:hadoop-tos-core
 ```

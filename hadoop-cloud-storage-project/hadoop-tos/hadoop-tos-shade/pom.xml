@@ -85,6 +85,9 @@
                   <include>com.fasterxml.jackson.core:*</include>
                   <include>commons-codec:commons-codec</include>
                 </includes>
+                <!-- The dependencies below are provided by hadoop-common, no need to shade.
+                     org.slf4j:slf4j-api.
+                 -->
               </artifactSet>
               <relocations>
                 <relocation>

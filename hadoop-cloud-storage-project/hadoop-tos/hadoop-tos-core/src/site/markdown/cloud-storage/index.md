@@ -32,11 +32,15 @@ In quick start, we will use hadoop shell command to access a tos bucket.
 3. Install hadoop to the dev environment. Hadoop is installed at `$HADOOP_HOME`.
 
 ### Usage
-
-* Copy hadoop-tos bundler jar to hdfs lib path. The bundle jar is placed
-   at `$HADOOP_HOME/share/hadoop/tools/hadoop-cloud-storage/hadoop-tos-{VERSION}.jar`. The hdfs lib
-   path is `$HADOOP_HOME/share/hadoop/hdfs`. Remember copying on all hadoop nodes.
-* Configure properties.
+* Compile hadoop-tos bundle jar. The hadoop-tos bundle jar is not packaged in hadoop final tar file.
+So we have to compile it manually. Download the hadoop project, and build it with command below.
+```bash
+mvn install -Pdist -Dhbase.profile=2.0 -DskipTests -Dtar -Dmaven.javadoc.skip=true
+```
+* Copy hadoop-tos bundle jar to hdfs lib path. The bundle jar is placed at
+`$HADOOP_HOME/hadoop-cloud-storage-project/hadoop-tos/hadoop-tos-core/target/hadoop-tos-core-{VERSION}.jar`.
+The hdfs lib path is `$HADOOP_HOME/share/hadoop/hdfs`. Remember copying to all hadoop nodes.
+* Configure properties below.
 
 ```xml
 
@@ -414,7 +418,7 @@ export TOS_BUCKET={YOUR_BUCKET_NAME}
 export TOS_UNIT_TEST_ENABLED=true
 ```
 
-Then cd to `$HADOOP_HOME`, and run the test command below.
+Then cd to hadoop project root directory, and run the test command below.
 
 ```bash
 mvn -Dtest=org.apache.hadoop.fs.tosfs.** test -pl org.apache.hadoop:hadoop-tos-core

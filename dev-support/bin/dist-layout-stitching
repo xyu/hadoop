@@ -151,10 +151,6 @@ run cp -p "${ROOT}/hadoop-client-modules/hadoop-client-minicluster/target/hadoop
 run copy "${ROOT}/hadoop-tools/hadoop-tools-dist/target/hadoop-tools-dist-${VERSION}" .
 run copy "${ROOT}/hadoop-tools/hadoop-dynamometer/hadoop-dynamometer-dist/target/hadoop-dynamometer-dist-${VERSION}" .
 
-run mkdir -p "share/hadoop/tools/hadoop-cloud-storage"
-run cp "${ROOT}/hadoop-cloud-storage-project/hadoop-tos/target/hadoop-tos-${VERSION}.jar" share/hadoop/tools/hadoop-cloud-storage/ 
-run cp "${ROOT}/hadoop-cloud-storage-project/hadoop-cos/target/hadoop-cos-${VERSION}.jar" share/hadoop/tools/hadoop-cloud-storage/ 
-run cp "${ROOT}/hadoop-cloud-storage-project/hadoop-huaweicloud/target/hadoop-huaweicloud-${VERSION}.jar" share/hadoop/tools/hadoop-cloud-storage/ 
 
 echo
 echo "Hadoop dist layout available at: ${BASEDIR}/hadoop-${VERSION}"

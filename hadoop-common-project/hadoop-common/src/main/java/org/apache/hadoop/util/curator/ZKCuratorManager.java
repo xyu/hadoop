@@ -207,6 +207,7 @@ public final class ZKCuratorManager {
                 conf.get(CommonConfigurationKeys.ZK_KERBEROS_PRINCIPAL),
                 conf.get(CommonConfigurationKeys.ZK_KERBEROS_KEYTAB), sslEnabled,
                 new TruststoreKeystore(conf))).zkClientConfig(zkClientConfig)
+        .connectionTimeoutMs(zkSessionTimeout)
         .sessionTimeoutMs(zkSessionTimeout).retryPolicy(retryPolicy)
         .authorization(authInfos).build();
     client.start();
